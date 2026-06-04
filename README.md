@@ -36,12 +36,21 @@ recorte → máscara binaria del mismo tamaño y CRS que la imagen.
 - `data/masks/mask_<row_id>.tif` — máscara binaria alineada con su imagen
 - `data/masks_muestra.png` — RGB + máscara + overlay
 
+### `04_dataset_parches.ipynb`
+Arma el dataset para la U-Net. Las imágenes son recortes chicos (~130 px), así que
+redimensiona cada par a **128×128** (no corta parches), normaliza las 4 bandas a
+[0,1], y hace **split por escena (`stac_item`)** para evitar data leakage. Entrega
+`DataLoader` de PyTorch con augmentation (flips) solo en train.
+
+**Salida:**
+- `data/dataset_split.json` — lista de pares con su split (train/val/test)
+- `data/dataset_batch_muestra.png` — muestra de un batch (RGB + overlay)
+
 ## Siguientes pasos (pendientes)
 
-- `04_dataset_parches.ipynb` — cortar imágenes y máscaras en parches 256×256,
-  normalizar bandas, split train/val/test por OBJECTID (evitar data leakage).
-- `05_modelo_unet.ipynb` — entrenar la U-Net y evaluar (IoU / F1 sobre la clase
-  deforestación, no accuracy).
+- `05_modelo_unet.ipynb` — entrenar la U-Net y evaluar. Usa **Dice + BCE** como loss
+  (deforestación ~6% de píxeles → accuracy engaña) y mide **IoU / F1 sobre la clase
+  deforestación** en test.
 
 ## Orden de ejecución
 
