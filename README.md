@@ -23,6 +23,13 @@ Descarga masiva Sentinel-2 **4 bandas (R, G, B, NIR)** vía STAC earth-search,
 recortando cada polígono. Reanudable: un manifest registra cada descarga por
 `row_id`. `MAX_ITEMS` controla cuántos polígonos bajar (`None` = todos).
 
+**Filtro por overlap (`OVERLAP_MAX = 0.20`):** el bbox se calcula desde la
+geometría, así que **no baja** polígonos que se encimen más del 20% con los ya
+elegidos → el dataset queda sin redundancia desde el origen, sin gastar
+descarga ni espacio. Incluye una celda de **limpieza** (dry-run + confirmación)
+que aplica el mismo thinning a lo ya bajado y borra de Drive las imágenes
+redundantes.
+
 **Salida:**
 - `data/sentinel_rgbn/s2_rgbn_<row_id>.tif` — GeoTIFF 4 bandas, uint16, 10 m
 - `data/sentinel_manifest.json` — tracking (ok / no_scene / error) por polígono
@@ -39,18 +46,25 @@ recorte → máscara binaria del mismo tamaño y CRS que la imagen.
 ### `04_dataset_parches.ipynb`
 Arma el dataset para la U-Net. Las imágenes son recortes chicos (~130 px), así que
 redimensiona cada par a **128×128** (no corta parches), normaliza las 4 bandas a
-[0,1], y hace **split por escena (`stac_item`)** para evitar data leakage. Entrega
-`DataLoader` de PyTorch con augmentation (flips) solo en train.
+[0,1]. Filtro de **curado** opcional (`seleccion_keep.json` del curador web) y
+**split por escena balanceado por número de imágenes** (greedy, ~70/15/15 sin
+leakage entre escenas). El thinning por overlap ya no vive aquí — se hace en 02.
+Entrega `DataLoader` de PyTorch con augmentation (flips) solo en train.
 
 **Salida:**
 - `data/dataset_split.json` — lista de pares con su split (train/val/test)
 - `data/dataset_batch_muestra.png` — muestra de un batch (RGB + overlay)
 
-## Siguientes pasos (pendientes)
+### `05_modelo_unet.ipynb`
+Entrena la U-Net y evalúa. **U-Net con encoder ResNet34 pre-entrenado en ImageNet**
+(transfer learning, `segmentation-models-pytorch`), entrada 4 bandas → 1 máscara.
+Loss **Dice + BCE** (deforestación ~6% de píxeles → accuracy engaña). Guarda los
+mejores pesos por IoU de validación y mide **IoU / F1 sobre la clase deforestación**
+en test, con barrido de umbral y predicciones visuales.
 
-- `05_modelo_unet.ipynb` — entrenar la U-Net y evaluar. Usa **Dice + BCE** como loss
-  (deforestación ~6% de píxeles → accuracy engaña) y mide **IoU / F1 sobre la clase
-  deforestación** en test.
+**Salida:**
+- `data/unet_best.pt` — pesos del mejor modelo
+- `data/unet_curvas.png`, `data/unet_pred_muestra.png`
 
 ## Orden de ejecución
 
