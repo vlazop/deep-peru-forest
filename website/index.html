@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Curador Before/After — Deforestación Perú</title>
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/geotiff@2.1.3/dist-browser/geotiff.js"></script>
+<!-- magic-wand-tool publica como CommonJS (module.exports), no crea global.
+     Shim de `module` solo alrededor de su script -> capturamos MagicWand global. -->
+<script>window.__modbak=window.module; window.module={exports:{}};</script>
+<script src="https://cdn.jsdelivr.net/npm/magic-wand-tool@1.1.5/dist/magic-wand.min.js"></script>
+<script>window.MagicWand=window.module.exports; window.module=window.__modbak; delete window.__modbak;</script>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="app">
+  <div id="maps">
+    <div class="mapwrap">
+      <div class="map" id="map-a"></div>
+      <div class="tag a">ANTES<span class="date" id="date-a"></span></div>
+      <div class="drop" id="drop">
+        <div class="box">
+          <h2>Curador Before/After — Sentinel-2</h2>
+          <p>Sube tu <b>sentinel_manifest_cd.json</b> (dataset before/after).
+             Antes (izq) y después (der) sincronizados. Marca <b>Keep / Reject</b> (k/r).<br>
+             Para <b>dibujar el cambio</b> a mano (✏ o 🪄 varita), carga primero la carpeta
+             de <b>.tif locales</b> (s2_{id}_A/B) — la varita necesita los píxeles reales.</p>
+          <label class="pick">📂 Cargar manifest CD<input type="file" id="mf-input2" accept=".json,application/json" hidden></label>
+        </div>
+      </div>
+    </div>
+    <div class="mapwrap">
+      <div class="map" id="map-b"></div>
+      <div class="tag b">DESPUÉS<span class="date" id="date-b"></span></div>
+      <div class="layers" id="layers">
+        <div class="lh">Capas</div>
+        <label><input type="checkbox" id="ly-sentinel" checked> Imagen Sentinel</label>
+        <label><input type="checkbox" id="ly-defo" checked> Deforestación (SERFOR)</label>
+        <label><input type="checkbox" id="ly-annot" checked> Mis polígonos</label>
+        <label><input type="checkbox" id="ly-bbox" checked> Cajas (bbox)</label>
+        <div class="lh" style="margin-top:8px">Opacidad imagen</div>
+        <input type="range" id="ly-op" min="0" max="100" value="100" style="width:100%;accent-color:var(--accent)">
+      </div>
+    </div>
+    <!-- barra de dibujo CENTRADA entre los dos mapas -->
+    <div class="draw-hint" id="draw-hint"></div>
+    <div class="draw-tools" id="draw-tools">
+      <button id="t-pan" class="on" title="Mover el mapa">✋ Mover</button>
+      <button id="t-draw" title="Dibujar polígono: clic en cada vértice, doble clic o Enter para cerrar">✏ Dibujar</button>
+      <button id="t-wand" title="Varita: clic en el parche de cambio (necesita .tif local)">🪄 Varita</button>
+      <span class="wandthr">tol <input type="range" id="wand-thr" min="3" max="120" value="20"><b id="wand-thr-v">20</b></span>
+      <span class="wandthr">buffer <input type="range" id="wand-buf" min="0" max="12" value="0"><b id="wand-buf-v">0</b></span>
+      <button id="t-undo" title="Deshacer último polígono">↶ Undo</button>
+      <button id="t-clear" title="Borrar mis polígonos de este par">🗑 Limpiar</button>
+    </div>
+  </div>
+  <aside id="sidebar">
+    <div class="sb-head">
+      <h1>Curador Before/After</h1>
+      <div class="stats" id="stats">sin manifest</div>
+      <div class="io">
+        <label class="btn">📂 Manifest CD<input type="file" id="mf-input" accept=".json,application/json" hidden></label>
+        <button class="btn" id="dir-btn" type="button">🖼 Imágenes A/B</button>
+        <input type="file" id="dir-input" webkitdirectory directory multiple hidden>
+      </div>
+      <div class="io" style="margin-top:6px;display:none" id="reconnect-row">
+        <button class="btn" id="dir-reconnect" type="button" style="border-color:var(--accent)">🔌 Reconectar carpeta de imágenes</button>
+      </div>
+      <div class="io-status" id="io-status">Carga un sentinel_manifest_cd.json para empezar.</div>
+    </div>
+    <div class="filters">
+      <div class="grp">
+        <label>Nube máx (peor de A/B) <span class="rowval"><span></span><b id="cloud-val">100%</b></span></label>
+        <input type="range" id="f-cloud" min="0" max="100" value="100" />
+      </div>
+      <div class="grp">
+        <label>Área deforestación mín (SUPAFEC) <b id="area-val">0</b></label>
+        <input type="range" id="f-area" min="0" max="100" value="0" />
+      </div>
+      <div class="grp">
+        <label>Departamento</label>
+        <select id="f-dep"><option value="">todos</option></select>
+      </div>
+      <div class="grp chk"><input type="checkbox" id="f-unlabeled" /> <label style="margin:0">solo sin etiquetar</label></div>
+    </div>
+    <div class="list" id="list"></div>
+    <div class="review" id="review">
+      <div class="review-body"><div class="empty">Clic en un par (mapa o lista) para revisarlo.</div></div>
+    </div>
+    <div class="export">
+      <button id="exp-keep">⬇ Export keep (CD)</button>
+      <button id="exp-annot">⬇ Export anotaciones</button>
+      <button id="exp-excl">⬇ Export excluidos</button>
+      <button id="reset">↺ Reset</button>
+    </div>
+  </aside>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
