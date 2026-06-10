@@ -1,0 +1,300 @@
+\documentclass[11pt,a4paper]{article}
+
+% --- Paquetes ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noquoting]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\title{\textbf{Detección de deforestación en Perú con U-Net}\\
+\large Detección de cambio (\textit{before/after}) sobre imágenes Sentinel-2}
+\author{Proyecto final --- MIA-07: Redes Neuronales y Aprendizaje Profundo}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+Se aborda la detección de deforestación en la Amazonía peruana sobre imágenes
+Sentinel-2, usando como etiquetas los polígonos oficiales de SERFOR. El análisis muestra
+que dichas etiquetas representan \textbf{detección de cambio de un período} (con fechas de
+inicio y fin), por lo que el problema se modela con un par de imágenes \emph{antes/después}
+y una U-Net con encoder ResNet34. A través de un estudio de ablación controlado se evalúan
+el tamaño del encoder, el uso de NDVI, la función de pérdida y el balance de clases. La
+mejor configuración (ResNet34, 8 canales, pérdida Dice + BCE con \texttt{pos\_weight}
+balanceado) alcanza un \textbf{IoU de 0,413 y F1 de 0,584} sobre el conjunto de prueba. El
+mayor impacto provino del balance de clases, no de la arquitectura; el límite restante está
+en la precisión de las etiquetas de referencia.
+\end{abstract}
+
+\section{Problema y enfoque}
+
+El objetivo es detectar deforestación en la Amazonía peruana sobre imágenes Sentinel-2,
+usando como etiquetas los polígonos oficiales de \textbf{SERFOR}
+(\texttt{deforestacion.geojson}, 9.910 polígonos).
+
+El hallazgo clave del análisis inicial es que las etiquetas SERFOR \textbf{no marcan todo
+el suelo desnudo}, sino la \textbf{deforestación ocurrida en un período específico}. Cada
+polígono trae dos fechas, \texttt{FESATA} (antes) y \texttt{FESATB} (después), y señala
+solo el cambio entre ellas. Por eso el problema es de \textbf{detección de cambio}, no de
+segmentación sobre una sola imagen.
+
+Con una sola imagen el modelo no puede distinguir un clareo nuevo de uno antiguo (ambos
+son suelo desnudo). La solución fue usar un \textbf{par de imágenes} del mismo lugar: una
+\emph{antes} (cercana a \texttt{FESATA}, bosque en pie) y otra \emph{después} (cercana a
+\texttt{FESATB}, ya clareado). El modelo aprende el cambio verde$\rightarrow$café, que es
+exactamente lo que marca el polígono.
+
+\section{Pipeline}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{4.2cm}p{9.5cm}@{}}
+\toprule
+\textbf{Notebook} & \textbf{Función} \\
+\midrule
+\texttt{01\_descarga\_y\_exploracion} & Carga y exploración de las etiquetas SERFOR. \\
+\texttt{02\_descarga\_sentinel2} & Descarga el par \emph{antes/después} (Sentinel-2 L2A vía STAC earth-search), bandas R, G, B, NIR a 10\,m. Filtra por nubes y solapamiento; descarga en paralelo. \\
+\texttt{03\_generar\_mascaras} & Rasteriza los polígonos sobre la grilla de la imagen. Filtra por la ventana temporal del par y suma anotaciones manuales del curador web. \\
+\texttt{04\_dataset\_parches} & Empareja imágenes y máscaras; separa train/val/test \emph{por escena} (sin fuga de datos). \\
+\texttt{05\_modelo\_unet} & Entrena la U-Net. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Mejora de etiquetas: curador web}
+
+Las etiquetas SERFOR no siempre son precisas (bordes aproximados, deforestación faltante o
+mal delimitada). Para mejorarlas se desarrolló un \textbf{curador web} con dos vistas
+sincronizadas \emph{antes/después}, disponible en
+\url{https://deforestacion-peru.cloud4geo.com/} (Figura~\ref{fig:curador}). La herramienta
+permite, por cada par: (i) revisar visualmente el cambio y aceptar o descartar el par
+(\emph{Keep/Reject}); y (ii) cuando falta deforestación en la etiqueta, \textbf{agregar los
+segmentos faltantes a mano}, ya sea dibujando el polígono o con una \textbf{varita mágica}
+(selección por color sobre la imagen real). Las anotaciones exportadas se suman a los
+polígonos SERFOR en el notebook 03, mejorando la calidad de las máscaras de entrenamiento.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{figuras/missing.png}
+\caption{Curador web \emph{before/after} (\url{https://deforestacion-peru.cloud4geo.com/}).
+Izquierda y centro: imágenes Sentinel \emph{antes} y \emph{después} sincronizadas, con los
+polígonos SERFOR superpuestos. Donde la etiqueta no cubre todo el cambio, se añaden
+segmentos con las herramientas de dibujo o de varita mágica (barra inferior). El panel
+derecho gestiona la revisión y la exportación de la curación y las anotaciones.}
+\label{fig:curador}
+\end{figure}
+
+\section{Datos}
+
+\begin{itemize}
+  \item \textbf{1.039 pares} tras curación: \textbf{727 train / 156 val / 156 test}.
+  \item Separación \textbf{por escena Sentinel}: recortes de la misma escena no caen en
+        train y test a la vez (sin fuga de datos).
+  \item Entrada base: \textbf{8 canales} = R, G, B, NIR (antes) + R, G, B, NIR (después),
+        normalizados a $[0,1]$, redimensionados a $128\times128$.
+  \item Clase positiva (deforestación) cercana al 2,9\% de los píxeles: fuerte
+        desbalance.
+\end{itemize}
+
+\section{Modelo y entrenamiento}
+
+\begin{itemize}
+  \item \textbf{U-Net} con encoder \textbf{ResNet34} pre-entrenado en ImageNet
+        (transfer learning); el primer \texttt{conv} se adapta a 8 canales.
+  \item \textbf{Pérdida = Dice + BCE} con \texttt{pos\_weight} para el desbalance.
+  \item Optimizador Adam (\texttt{lr}=1e-3) + \emph{scheduler} que reduce el LR cuando el
+        IoU de validación se estanca.
+  \item Se guardan los pesos del \textbf{mejor IoU de validación}.
+  \item Métricas sobre la clase deforestación: \textbf{IoU y F1} (no \emph{accuracy}, que
+        engaña con clases desbalanceadas). Se reporta también el mejor umbral del barrido.
+\end{itemize}
+
+\section{Experimentos y resultados}
+
+La métrica principal es el \textbf{IoU en test} sobre la clase deforestación. Como el
+umbral 0,5 no es óptimo con clases desbalanceadas, se reporta también el mejor umbral del
+barrido (en general 0,7).
+
+\begin{table}[h]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccccccc@{}}
+\toprule
+\textbf{Experimento} & \textbf{Encoder} & \textbf{Can.} & \textbf{Ep.} &
+\textbf{IoU val} & \textbf{IoU@0.5} & \textbf{IoU@mej.} & \textbf{F1@mej.} \\
+\midrule
+\textbf{r34 + pw\_sqrt} $\star$ & ResNet34 & 8 & 100 & \textbf{0,397} & \textbf{0,411} & \textbf{0,413} & \textbf{0,584} \\
+r18 + pw\_sqrt        & ResNet18 & 8  & 100 & 0,391 & 0,385 & 0,387 & 0,558 \\
+r34 + 8band           & ResNet34 & 8  & 100 & 0,337 & 0,360 & 0,381 & 0,552 \\
+r34 + 8band (150 ep)  & ResNet34 & 8  & 150 & 0,332 & 0,345 & 0,367 & 0,537 \\
+r34 + lovász          & ResNet34 & 8  & 100 & 0,348 & 0,360 & 0,360 & 0,530 \\
+r34 + ndvi11          & ResNet34 & 11 & 150 & 0,316 & 0,312 & 0,347 & 0,516 \\
+r50 + ndvi11          & ResNet50 & 11 & 150 & 0,326 & 0,299 & 0,327 & 0,492 \\
+\bottomrule
+\end{tabular}
+\caption{Resultados de los experimentos. \texttt{pw\_sqrt}: \texttt{pos\_weight} reducido a
+la raíz de \texttt{neg/pos}~($\approx 5{,}8$); \texttt{ndvi11}: 8 canales + NDVI antes,
+NDVI después y $\Delta$-NDVI; \texttt{lovász}: pérdida BCE + Lovász.}
+\end{table}
+
+\noindent
+\textbf{Mejor modelo: ResNet34 + 8 bandas + 100 epochs + \texttt{pos\_weight} balanceado
+$\rightarrow$ IoU 0,413, F1 0,584 (umbral 0,7).} Con el \texttt{pos\_weight} balanceado la
+precisión sube de 0,40 a 0,51 y el recall baja de 0,77 a 0,67 (modelo más equilibrado), y
+el IoU queda casi plano entre umbrales (0,403--0,413), señal de buena calibración.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.92\textwidth]{figuras/comparacion_iou.png}
+\caption{Comparación del IoU en test (mejor umbral) entre los siete experimentos. El
+balance del \texttt{pos\_weight} sobre ResNet34 con 8 bandas (verde) da el mejor resultado;
+agregar NDVI o usar ResNet50 lo empeora.}
+\label{fig:comparacion}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.92\textwidth]{figuras/curvas_mejor.png}
+\caption{Curvas de entrenamiento del mejor modelo (ResNet34 + 8 bandas + \texttt{pos\_weight}
+balanceado). Izquierda: pérdida de entrenamiento y validación. Derecha: IoU y F1 de
+validación, que se estabilizan alrededor de la época 55--90.}
+\label{fig:curvas}
+\end{figure}
+
+\section{Por qué cada ajuste funcionó o no}
+
+El estudio se hizo cambiando \textbf{una variable a la vez} sobre la mejor configuración
+del momento, para atribuir cada subida o bajada a una causa concreta.
+
+\paragraph{Before/after (8 canales) --- la base.}
+Pasar de una sola imagen a un par antes/después fue el cambio que habilitó el proyecto.
+Con una imagen el modelo no puede distinguir un clareo nuevo de uno antiguo; con el par sí
+ve el cambio.
+
+\paragraph{NDVI como bandas extra (11 canales) --- no ayudó ($0{,}413 \to 0{,}347$).}
+El NDVI se calcula como $(\text{NIR}-\text{R})/(\text{NIR}+\text{R})$. La red ya tiene las
+bandas R y NIR de ambas fechas y puede derivar el NDVI por su cuenta, así que darlo
+explícito no agrega información nueva; solo añade 3 canales con pesos iniciales aleatorios
+(ruido). Con pocos datos, ese ruido perjudica.
+
+\paragraph{ResNet50 (encoder más grande) --- empeoró ($0{,}413 \to 0{,}327$).}
+ResNet50 ($\sim$32\,M parámetros) tiene más capacidad que ResNet34 ($\sim$24\,M), pero
+también más capacidad de \textbf{memorizar}. Está pensada para conjuntos grandes (decenas o
+cientos de miles de imágenes). Con solo 727 imágenes de entrenamiento, el modelo grande no
+aprende el patrón general: \textbf{memoriza el conjunto de train} (sobreajuste) y rinde
+peor en test.
+
+\paragraph{ResNet18 (encoder más chico) --- un poco peor ($0{,}413 \to 0{,}387$).}
+Por la misma lógica se probó ResNet18 ($\sim$14\,M) buscando menos sobreajuste, pero quedó
+por debajo: con menos parámetros el modelo se queda corto (subajuste). Junto con ResNet50
+se forma una \textbf{U invertida}: ni muy grande (memoriza) ni muy chico (no alcanza).
+\textbf{ResNet34 es el punto de equilibrio} entre capacidad y cantidad de datos.
+
+\paragraph{\texttt{pos\_weight} balanceado --- la mejora más grande ($0{,}381 \to 0{,}413$).}
+El \texttt{pos\_weight} del BCE controla cuánto se castiga perder un píxel de deforestación
+(clase rara, cercana al 2,9\%). El valor por defecto \texttt{neg/pos}~$\approx 33{,}6$ castiga
+tanto perder un positivo que el modelo \textbf{marca de más} (recall 0,77 pero precisión
+0,40). Bajarlo a la raíz ($\approx 5{,}8$) lo equilibra (precisión 0,51, recall 0,67) y
+sube el IoU a 0,413. Fue el ajuste de mayor impacto y atacó el \textbf{desbalance de
+clases}, el problema real.
+
+\paragraph{Lovász loss --- no ayudó y descalibró ($0{,}413 \to 0{,}360$).}
+La Lovász optimiza el IoU de forma directa (aproximación diferenciable), pero en la
+práctica rindió peor y \textbf{rompió la calibración}: empuja las probabilidades a valores
+extremos, así que el modelo solo funciona con umbral 0,5 exacto (a 0,6 ya casi no predice).
+Dice + BCE resultó más robusto.
+
+\paragraph{Número de epochs --- 100 es suficiente.}
+Comparando 150 vs 100 epochs el resultado es equivalente (diferencias dentro del ruido). El
+IoU de validación se estabiliza alrededor de la época 55--90.
+
+\section{Conclusiones del estudio de ablación}
+
+\begin{enumerate}
+  \item \textbf{El balance del \texttt{pos\_weight} tuvo el mayor impacto} ($+0{,}03$ IoU),
+        atacando el desbalance de clases en lugar de la arquitectura.
+  \item \textbf{El tamaño del encoder tiene un óptimo claro en ResNet34} (U invertida:
+        R18 $0{,}387 <$ R34 $0{,}413 >$ R50 $0{,}327$).
+  \item \textbf{Las features derivadas (NDVI) no ayudan}: la red ya las deriva de R y NIR.
+  \item \textbf{100 epochs son suficientes} (convergencia $\sim$época 55--90).
+  \item \textbf{El modelo final está bien calibrado}: IoU casi constante entre umbrales.
+  \item \textbf{El techo restante está en las etiquetas}: tras agotar las palancas de
+        modelado, el límite proviene de la imprecisión de los polígonos de referencia
+        SERFOR. Mejorar las etiquetas es la vía con mayor recorrido pendiente.
+\end{enumerate}
+
+\section{Valoración del resultado}
+
+Un IoU de $\sim$0,41 (F1 0,58) es \textbf{razonable} para detección de cambio de
+deforestación con etiquetas de referencia gruesas, imágenes a 10\,m y un conjunto de datos
+pequeño.
+
+\paragraph{Comparación con la literatura.}
+Torres et al.~\cite{torres2021deforestation} evalúan U-Net y variantes para detección de
+deforestación en la Amazonía brasileña con Landsat-8 y Sentinel-2 (parches $128\times128$,
+igual que este trabajo), usando como referencia el mapa oficial PRODES. Su mejor red
+(ResU-Net) reporta sobre Sentinel-2 un \textbf{F1 de 70,2\%} frente a la referencia sin
+auditar, que sube a \textbf{78,0\%} tras una auditoría manual del mapa de referencia (en
+F1 equivale a un IoU aproximado de 0,54--0,64). Nuestro modelo (F1 0,58, IoU 0,41) queda
+por debajo, lo cual es esperable: dicho estudio dispone de cobertura de toda la Amazonía y
+de la referencia profesional PRODES, frente a las 727 muestras de entrenamiento y las
+etiquetas SERFOR de Perú de este trabajo. Aun así, el resultado se sitúa en un rango
+comparable.
+
+\paragraph{Refuerzo del hallazgo principal.}
+El propio trabajo de Torres et al.~\cite{torres2021deforestation} advierte que el mapa de
+referencia PRODES se delinea manualmente a escala 1/75.000 y que asumir que la referencia
+representa la verdad absoluta a nivel de píxel lleva a subestimar las métricas de
+exactitud, exactamente la limitación observada con las etiquetas SERFOR. De hecho, su F1
+mejora de 70\% a 78\% solo con auditar (mejorar) las etiquetas de referencia, sin
+cambiar el modelo (Figura~\ref{fig:literatura}), lo que confirma que la calidad de las
+etiquetas es el factor limitante.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\textwidth]{figuras/comparacion_literatura.png}
+\caption{Comparación referencial del F1-score con Torres et al.~\cite{torres2021deforestation}
+sobre Sentinel-2. La comparación es \emph{cualitativa}: los conjuntos de datos y mapas de
+referencia son distintos (SERFOR-Perú vs PRODES-Brasil). El salto de 0,702 a 0,780 en ese
+estudio se obtiene únicamente auditando las etiquetas de referencia, sin cambiar el modelo,
+lo que evidencia el efecto de la calidad de las etiquetas sobre la métrica.}
+\label{fig:literatura}
+\end{figure}
+
+La inspección visual confirma que el modelo localiza la deforestación real, incluso donde
+el polígono de referencia es impreciso. Un IoU de 0,8 corresponde a tareas con bordes
+nítidos y etiquetas precisas, que no es el caso aquí.
+
+\section{Trabajo futuro}
+
+La vía con mayor impacto esperado es \textbf{mejorar las etiquetas}, no la arquitectura:
+
+\begin{itemize}
+  \item Ampliar las \textbf{anotaciones manuales} (curador web) para corregir y completar
+        los polígonos donde SERFOR falla.
+  \item Incorporar \textbf{más pares} al conjunto de datos.
+  \item Probar \textbf{funciones de pérdida} específicas para desbalance (Tversky, Focal).
+  \item \textbf{Análisis de errores}: revisar las escenas de test con peor IoU (suelen ser
+        nubes o bordes mal delimitados).
+\end{itemize}
+
+\bibliographystyle{ieeetr}
+\bibliography{referencias}
+
+\vspace{1em}
+\noindent\rule{\textwidth}{0.4pt}\\
+\footnotesize
+Artefactos por experimento en \texttt{data/experiments/<nombre>/} (checkpoint, curvas,
+\texttt{metrics.json}); tabla acumulada en \texttt{data/experiments/results.csv}.
+
+\end{document}
