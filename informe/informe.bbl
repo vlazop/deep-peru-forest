@@ -1,9 +1,37 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{3}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem{torres2021deforestation}
-D.~L. Torres, J.~N. Turnes, P.~J. Soto~Vega, R.~Q. Feitosa, D.~E. Silva,
-  J.~Marcato~Junior, and C.~Almeida, ``Deforestation detection with fully
-  convolutional networks in the amazon forest from landsat-8 and sentinel-2
-  images,'' {\em Remote Sensing}, vol.~13, no.~24, p.~5084, 2021.
+\bibitem[Hansen et~al.(2013)Hansen, Potapov, Moore, Hancher, Turubanova,
+  Tyukavina, Thau, Stehman, Goetz, Loveland, et~al.]{hansen2013high}
+Matthew~C. Hansen, Peter~V. Potapov, Rebecca Moore, Matt Hancher, S.~A.
+  Turubanova, Alexandra Tyukavina, David Thau, S.~V. Stehman, S.~J. Goetz,
+  T.~R. Loveland, et~al.
+\newblock High-resolution global maps of 21st-century forest cover change.
+\newblock \emph{Science}, 342\penalty0 (6160):\penalty0 850--853, 2013.
+\newblock \doi{10.1126/science.1244693}.
+
+\bibitem[Ortega~Adarme et~al.(2020)Ortega~Adarme, Queiroz~Feitosa, Nigri~Happ,
+  Aparecido De~Almeida, and Rodrigues~Gomes]{ortega2020evaluation}
+Mabel Ortega~Adarme, Raul Queiroz~Feitosa, Patrick Nigri~Happ, Claudio
+  Aparecido De~Almeida, and Alessandra Rodrigues~Gomes.
+\newblock Evaluation of deep learning techniques for deforestation detection in
+  the brazilian amazon and cerrado biomes from remote sensing imagery.
+\newblock \emph{Remote Sensing}, 12\penalty0 (6):\penalty0 910, 2020.
+\newblock \doi{10.3390/rs12060910}.
+\newblock URL \url{https://www.mdpi.com/2072-4292/12/6/910}.
+
+\bibitem[Torres et~al.(2021)Torres, Turnes, Soto~Vega, Feitosa, Silva,
+  Marcato~Junior, and Almeida]{torres2021deforestation}
+Daliana~Lobo Torres, Javier~Noa Turnes, Pedro~Juan Soto~Vega, Raul~Queiroz
+  Feitosa, Daikson~Esteban Silva, Jos{\'e} Marcato~Junior, and Claudio Almeida.
+\newblock Deforestation detection with fully convolutional networks in the
+  amazon forest from landsat-8 and sentinel-2 images.
+\newblock \emph{Remote Sensing}, 13\penalty0 (24):\penalty0 5084, 2021.
+\newblock \doi{10.3390/rs13245084}.
+\newblock URL \url{https://www.mdpi.com/2072-4292/13/24/5084}.
 
 \end{thebibliography}

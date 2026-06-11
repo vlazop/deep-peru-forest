@@ -1,5 +1,5 @@
 \relax 
-\providecommand \babel@aux [2]{\global \let \babel@toc \@gobbletwo }
+\providecommand\babel@aux[2]{}
 \@nameuse{bbl@beforestart}
 \catcode `"\active 
 \providecommand\hyper@newdestlabel[2]{}
@@ -8,36 +8,40 @@
 \babel@aux{spanish}{}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Problema y enfoque}{1}{section.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {2}Pipeline}{1}{section.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Curador web \emph  {before/after} (\url  {https://deforestacion-peru.cloud4geo.com/}). Izquierda y centro: imágenes Sentinel \emph  {antes} y \emph  {después} sincronizadas, con los polígonos SERFOR superpuestos. Donde la etiqueta no cubre todo el cambio, se añaden segmentos con las herramientas de dibujo o de varita mágica (barra inferior). El panel derecho gestiona la revisión y la exportación de la curación y las anotaciones.}}{2}{figure.1}\protected@file@percent }
-\newlabel{fig:curador}{{1}{2}{Curador web \emph {before/after} (\url {https://deforestacion-peru.cloud4geo.com/}). Izquierda y centro: imágenes Sentinel \emph {antes} y \emph {después} sincronizadas, con los polígonos SERFOR superpuestos. Donde la etiqueta no cubre todo el cambio, se añaden segmentos con las herramientas de dibujo o de varita mágica (barra inferior). El panel derecho gestiona la revisión y la exportación de la curación y las anotaciones}{figure.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Curador web \emph  {before/after} (\url  {https://deforestacion-peru.cloud4geo.com/}). Izquierda y centro: imágenes Sentinel \emph  {antes} y \emph  {después} sincronizadas, con los polígonos SERFOR superpuestos. Donde la etiqueta no cubre todo el cambio, se añaden segmentos con las herramientas de dibujo o de varita mágica (barra inferior). El panel derecho gestiona la revisión y la exportación de la curación y las anotaciones.}}{2}{figure.caption.4}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:curador}{{1}{2}{Curador web \emph {before/after} (\url {https://deforestacion-peru.cloud4geo.com/}). Izquierda y centro: imágenes Sentinel \emph {antes} y \emph {después} sincronizadas, con los polígonos SERFOR superpuestos. Donde la etiqueta no cubre todo el cambio, se añaden segmentos con las herramientas de dibujo o de varita mágica (barra inferior). El panel derecho gestiona la revisión y la exportación de la curación y las anotaciones}{figure.caption.4}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Datos}{2}{section.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {4}Modelo y entrenamiento}{3}{section.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {5}Experimentos y resultados}{3}{section.5}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Resultados de los experimentos. \texttt  {pw\_sqrt}: \texttt  {pos\_weight} reducido a la raíz de \texttt  {neg/pos}~($\approx 5{,}8$); \texttt  {ndvi11}: 8 canales + NDVI antes, NDVI después y $\Delta $-NDVI; \texttt  {lovász}: pérdida BCE + Lovász.}}{3}{table.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6}Por qué cada ajuste funcionó o no}{3}{section.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Before/after (8 canales) --- la base.}{3}{section*.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{NDVI como bandas extra (11 canales) --- no ayudó ($0{,}413 \to 0{,}347$).}{3}{section*.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Comparación del IoU en test (mejor umbral) entre los siete experimentos. El balance del \texttt  {pos\_weight} sobre ResNet34 con 8 bandas (verde) da el mejor resultado; agregar NDVI o usar ResNet50 lo empeora.}}{4}{figure.2}\protected@file@percent }
-\newlabel{fig:comparacion}{{2}{4}{Comparación del IoU en test (mejor umbral) entre los siete experimentos. El balance del \texttt {pos\_weight} sobre ResNet34 con 8 bandas (verde) da el mejor resultado; agregar NDVI o usar ResNet50 lo empeora}{figure.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Curvas de entrenamiento del mejor modelo (ResNet34 + 8 bandas + \texttt  {pos\_weight} balanceado). Izquierda: pérdida de entrenamiento y validación. Derecha: IoU y F1 de validación, que se estabilizan alrededor de la época 55--90.}}{4}{figure.3}\protected@file@percent }
-\newlabel{fig:curvas}{{3}{4}{Curvas de entrenamiento del mejor modelo (ResNet34 + 8 bandas + \texttt {pos\_weight} balanceado). Izquierda: pérdida de entrenamiento y validación. Derecha: IoU y F1 de validación, que se estabilizan alrededor de la época 55--90}{figure.3}{}}
-\@writefile{toc}{\contentsline {paragraph}{ResNet50 (encoder más grande) --- empeoró ($0{,}413 \to 0{,}327$).}{4}{section*.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{ResNet18 (encoder más chico) --- un poco peor ($0{,}413 \to 0{,}387$).}{4}{section*.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\texttt  {pos\_weight} balanceado --- la mejora más grande ($0{,}381 \to 0{,}413$).}{4}{section*.6}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Resultados de los experimentos. \texttt  {pw\_sqrt}: \texttt  {pos\_weight} reducido a la raíz de \texttt  {neg/pos}~($\approx 5{,}8$); \texttt  {ndvi11}: 8 canales + NDVI antes, NDVI después y $\Delta $-NDVI; \texttt  {lovász}: pérdida BCE + Lovász.}}{3}{table.caption.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Comparación del IoU en test (mejor umbral) entre los siete experimentos. El balance del \texttt  {pos\_weight} sobre ResNet34 con 8 bandas (verde) da el mejor resultado; agregar NDVI o usar ResNet50 lo empeora.}}{3}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:comparacion}{{2}{3}{Comparación del IoU en test (mejor umbral) entre los siete experimentos. El balance del \texttt {pos\_weight} sobre ResNet34 con 8 bandas (verde) da el mejor resultado; agregar NDVI o usar ResNet50 lo empeora}{figure.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Curvas de entrenamiento del mejor modelo (ResNet34 + 8 bandas + \texttt  {pos\_weight} balanceado). Izquierda: pérdida de entrenamiento y validación. Derecha: IoU y F1 de validación, que se estabilizan alrededor de la época 55--90.}}{4}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:curvas}{{3}{4}{Curvas de entrenamiento del mejor modelo (ResNet34 + 8 bandas + \texttt {pos\_weight} balanceado). Izquierda: pérdida de entrenamiento y validación. Derecha: IoU y F1 de validación, que se estabilizan alrededor de la época 55--90}{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Por qué cada ajuste funcionó o no}{4}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Before/after (8 canales) --- la base.}{4}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{NDVI como bandas extra (11 canales) --- no ayudó ($0{,}413 \to 0{,}347$).}{4}{section*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{ResNet50 (encoder más grande) --- empeoró ($0{,}413 \to 0{,}327$).}{4}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{ResNet18 (encoder más chico) --- un poco peor ($0{,}413 \to 0{,}387$).}{4}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\texttt  {pos\_weight} balanceado --- la mejora más grande ($0{,}381 \to 0{,}413$).}{4}{section*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Lovász loss --- no ayudó y descalibró ($0{,}413 \to 0{,}360$).}{4}{section*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Número de epochs --- 100 es suficiente.}{4}{section*.14}\protected@file@percent }
 \citation{torres2021deforestation}
 \citation{torres2021deforestation}
 \citation{torres2021deforestation}
 \citation{torres2021deforestation}
-\@writefile{toc}{\contentsline {paragraph}{Lovász loss --- no ayudó y descalibró ($0{,}413 \to 0{,}360$).}{5}{section*.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Número de epochs --- 100 es suficiente.}{5}{section*.8}\protected@file@percent }
+\bibstyle{plainnat}
+\citation{*}
+\bibdata{referencias}
+\bibcite{hansen2013high}{{1}{2013}{{Hansen et~al.}}{{Hansen, Potapov, Moore, Hancher, Turubanova, Tyukavina, Thau, Stehman, Goetz, Loveland, et~al.}}}
+\bibcite{ortega2020evaluation}{{2}{2020}{{Ortega~Adarme et~al.}}{{Ortega~Adarme, Queiroz~Feitosa, Nigri~Happ, Aparecido De~Almeida, and Rodrigues~Gomes}}}
 \@writefile{toc}{\contentsline {section}{\numberline {7}Conclusiones del estudio de ablación}{5}{section.7}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {8}Valoración del resultado}{5}{section.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Comparación con la literatura.}{5}{section*.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Refuerzo del hallazgo principal.}{5}{section*.10}\protected@file@percent }
-\bibstyle{ieeetr}
-\bibdata{referencias}
-\bibcite{torres2021deforestation}{1}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Comparación referencial del F1-score con Torres et al.~\cite  {torres2021deforestation} sobre Sentinel-2. La comparación es \emph  {cualitativa}: los conjuntos de datos y mapas de referencia son distintos (SERFOR-Perú vs PRODES-Brasil). El salto de 0,702 a 0,780 en ese estudio se obtiene únicamente auditando las etiquetas de referencia, sin cambiar el modelo, lo que evidencia el efecto de la calidad de las etiquetas sobre la métrica.}}{6}{figure.4}\protected@file@percent }
-\newlabel{fig:literatura}{{4}{6}{Comparación referencial del F1-score con Torres et al.~\cite {torres2021deforestation} sobre Sentinel-2. La comparación es \emph {cualitativa}: los conjuntos de datos y mapas de referencia son distintos (SERFOR-Perú vs PRODES-Brasil). El salto de 0,702 a 0,780 en ese estudio se obtiene únicamente auditando las etiquetas de referencia, sin cambiar el modelo, lo que evidencia el efecto de la calidad de las etiquetas sobre la métrica}{figure.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {9}Trabajo futuro}{6}{section.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Comparación con la literatura.}{5}{section*.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Refuerzo del hallazgo principal.}{5}{section*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {9}Trabajo futuro}{5}{section.9}\protected@file@percent }
+\bibcite{torres2021deforestation}{{3}{2021}{{Torres et~al.}}{{Torres, Turnes, Soto~Vega, Feitosa, Silva, Marcato~Junior, and Almeida}}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Comparación referencial del F1-score con Torres et al.~\cite  {torres2021deforestation} sobre Sentinel-2. La comparación es \emph  {cualitativa}: los conjuntos de datos y mapas de referencia son distintos (SERFOR-Perú vs PRODES-Brasil). El salto de 0,702 a 0,780 en ese estudio se obtiene únicamente auditando las etiquetas de referencia, sin cambiar el modelo, lo que evidencia el efecto de la calidad de las etiquetas sobre la métrica.}}{6}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:literatura}{{4}{6}{Comparación referencial del F1-score con Torres et al.~\cite {torres2021deforestation} sobre Sentinel-2. La comparación es \emph {cualitativa}: los conjuntos de datos y mapas de referencia son distintos (SERFOR-Perú vs PRODES-Brasil). El salto de 0,702 a 0,780 en ese estudio se obtiene únicamente auditando las etiquetas de referencia, sin cambiar el modelo, lo que evidencia el efecto de la calidad de las etiquetas sobre la métrica}{figure.caption.17}{}}
 \gdef \@abspage@last{6}
