@@ -10,7 +10,7 @@ Todos los notebooks usan `DATA_DIR`: en Colab es `MyDrive/deforestacion-peru/dat
 
 ### `01_descarga_y_exploracion.ipynb`
 Baja el GeoJSON de polígonos y lo explora (columnas, fechas, superficie, causa).
-Mapas estático e interactivo. Incluye una muestra de descarga Sentinel-2 RGB.
+Mapas estático e interactivo. Incluye una muestra de descarga Sentinel-2 RGB. El sentinel 2.
 
 **Salida:**
 - `data/deforestacion.geojson` — 9,910 polígonos (9,712 OBJECTID únicos)
