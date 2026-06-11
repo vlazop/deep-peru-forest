@@ -32,7 +32,8 @@
 \usepackage{listings}       % Listados de código fuente
 
 
-
+\usepackage{placeins}
+\usepackage{float}
 
 
 \title{\textbf{Detección de deforestación en Perú con U-Net}\\
@@ -303,7 +304,7 @@ mejora de 70\% a 78\% solo con auditar (mejorar) las etiquetas de referencia, si
 cambiar el modelo (Figura~\ref{fig:literatura}), lo que confirma que la calidad de las
 etiquetas es el factor limitante.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{figuras/comparacion_literatura.png}
 \caption{Comparación referencial del F1-score con Torres et al.~\cite{torres2021deforestation}
@@ -331,6 +332,8 @@ La vía con mayor impacto esperado es \textbf{mejorar las etiquetas}, no la arqu
         nubes o bordes mal delimitados).
 \end{itemize}
 
+% \FloatBarrier
+% \clearpage
 \bibliographystyle{plainnat}
 \nocite{*}                  % Muestra todas las referencias aunque no estén citadas en el texto
 \bibliography{referencias}
