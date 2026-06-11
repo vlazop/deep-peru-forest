@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex informe"] 1781182943.5266 "informe.aux" "informe.bbl" "informe" 1781182947.71817 0
+["bibtex informe"] 1781182943.5266 "informe.aux" "informe.bbl" "informe" 1781184123.54076 0
   "./referencias.bib" 1781179421 1590 544aa125a62e8613f0eb811cece2bceb ""
   "C:/Users/vlazo/AppData/Local/Programs/MiKTeX/bibtex/bst/natbib/plainnat.bst" 1284455456 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "informe.aux" 1781182946 7011 42717e5773be4a4dd7644914de5c9572 "pdflatex"
+  "informe.aux" 1781184122 7011 42717e5773be4a4dd7644914de5c9572 "pdflatex"
   (generated)
   "informe.bbl"
   "informe.blg"
   (rewritten before read)
-["pdflatex"] 1781182944.15834 "c:/Users/vlazo/workspace/deep-peru-forest/informe/informe.tex" "informe.pdf" "informe" 1781182947.71889 0
+["pdflatex"] 1781184119.92934 "c:/Users/vlazo/workspace/deep-peru-forest/informe/informe.tex" "informe.pdf" "informe" 1781184123.54153 0
   "C:/Users/vlazo/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1781182939 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/vlazo/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ectt0900.pk" 1781179627 17512 63c381ca9193f9141ba7cf6d7ab2bb6f ""
   "C:/Users/vlazo/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ectt1000.pk" 1779968810 20028 fada1e9a5b41e62a8db6286fe0a7d983 ""
@@ -141,15 +141,15 @@
   "C:/Users/vlazo/AppData/Local/Programs/MiKTeX/tex/latex/units/nicefrac.sty" 1469029150 4163 0462ee5ab265cf59dc15a41a3b883101 ""
   "C:/Users/vlazo/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/vlazo/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
-  "c:/Users/vlazo/workspace/deep-peru-forest/informe/informe.tex" 1781182893 17589 52b2b55017fa92644c68053468c1d07c ""
+  "c:/Users/vlazo/workspace/deep-peru-forest/informe/informe.tex" 1781183443 17589 52b2b55017fa92644c68053468c1d07c ""
   "figuras/comparacion_iou.png" 1781179421 48493 bff9ed2ef5c0d6cf30cf62772178fd35 ""
   "figuras/comparacion_literatura.png" 1781179421 49031 8e935deed0968c1e525a666e74394be8 ""
   "figuras/curvas_mejor.png" 1781179421 56169 fb77f1d8bf35558652fd438bfa5accdb ""
   "figuras/missing.png" 1781179421 4991274 b8f520c016962452bcacef4f1384d881 ""
-  "informe.aux" 1781182946 7011 42717e5773be4a4dd7644914de5c9572 "pdflatex"
+  "informe.aux" 1781184122 7011 42717e5773be4a4dd7644914de5c9572 "pdflatex"
   "informe.bbl" 1781182944 1990 8123abd76c5956ee4fdd27795c82be2e "bibtex informe"
-  "informe.out" 1781182946 1381 d21eaab488f29ca73971f5f85e16acb2 "pdflatex"
-  "informe.tex" 1781182893 17589 52b2b55017fa92644c68053468c1d07c ""
+  "informe.out" 1781184122 1381 d21eaab488f29ca73971f5f85e16acb2 "pdflatex"
+  "informe.tex" 1781183443 17589 52b2b55017fa92644c68053468c1d07c ""
   "neurips_2026.sty" 1781180244 11679 65b015836bb264f2e7da3513c3f7cd44 ""
   (generated)
   "informe.aux"
