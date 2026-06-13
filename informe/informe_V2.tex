@@ -1,67 +1,55 @@
-% \documentclass[11pt,a4paper]{article}
-\documentclass{article}
-
-% Empleamos la plantilla oficial de NeurIPS 2026 en formato preprint para el reporte
-\usepackage[preprint]{neurips_2026}
+\documentclass[onecolumn,conference]{IEEEtran}
 
 % --- Paquetes ---
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[spanish,es-tabla,es-noquoting]{babel}
-% \usepackage[margin=2.5cm]{geometry}
-\usepackage{geometry}
-\usepackage{booktabs}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{siunitx}
-\usepackage{xcolor}
-\usepackage[hidelinks]{hyperref}
-
-\usepackage{tabularx}
-
-
-\usepackage[spanish,es-tabla]{babel} % Soporte para español e internacionalización de tablas
-\usepackage{hyperref}       % Hipervínculos
-\usepackage{url}            % Formateo de URLs
+\usepackage[spanish,es-tabla,es-noquoting]{babel} % Español e internacionalización de tablas
 \usepackage{booktabs}       % Tablas de calidad profesional
+\usepackage{graphicx}       % Imágenes
+\usepackage{amsmath}        % Matemáticas
 \usepackage{amsfonts}       % Fuentes matemáticas de la AMS
+\usepackage{siunitx}        % Unidades
+\usepackage{xcolor}         % Color
+\usepackage{tabularx}       % Tablas de ancho fijo
+\usepackage{url}            % Formateo de URLs
 \usepackage{nicefrac}       % Fracciones compactas
 \usepackage{microtype}      % Mejoras en la microtipografía
-
 \usepackage{subcaption}     % Subfiguras
 \usepackage{listings}       % Listados de código fuente
-
-
 \usepackage{placeins}
 \usepackage{float}
+\usepackage[hidelinks]{hyperref} % Hipervínculos (se carga al final)
 
+% Repositorio del código
+\newcommand{\repo}{https://github.com/uni-maestria/deep-peru-forest}
+% Enlace a notebook: muestra el nombre en monospace y enlaza al .ipynb en GitHub
+\newcommand{\nb}[1]{\href{\repo/blob/main/#1.ipynb}{\texttt{\textcolor{blue}{#1}}}}
+% Enlace a notebook con texto de display corto (para los experimentos)
+\newcommand{\nbexp}[2]{\href{\repo/blob/main/#1.ipynb}{\textcolor{blue}{#2}}}
 
-\title{\textbf{Detección de deforestación en Perú con U-Net}\\
-\large Detección de cambio (\textit{before/after}) sobre imágenes Sentinel-2}
-
-% \author{Proyecto final --- MIA-07: Redes Neuronales y Aprendizaje Profundo}
-% \date{\today}
+\title{Detección de deforestación en Perú con U-Net:\\
+detección de cambio (\textit{before/after}) sobre imágenes Sentinel-2}
 
 \author{%
-  \textbf{Andres Flores} \\
-  Unidad de Posgrado - FIIS \\
-  Universidad Nacional de Ingeniería \\
-  \texttt{affloresb@uni.pe} \\
+  \IEEEauthorblockN{Andres Flores}
+  \IEEEauthorblockA{Unidad de Posgrado - FIIS\\
+    Universidad Nacional de Ingeniería\\
+    affloresb@uni.pe}
   \and
-  \textbf{Victor Lazo} \\
-  Unidad de Posgrado - FIIS \\
-  Universidad Nacional de Ingeniería \\
-  \texttt{vlazop@uni.pe} \\
-  \AND % Resetea la línea horizontal para los siguientes dos autores
-  \textbf{Rubén López} \\
-  Unidad de Posgrado - FIIS \\
-  Universidad Nacional de Ingeniería \\
-  \texttt{ruben.lopez.m@uni.pe} \\
+  \IEEEauthorblockN{Victor Lazo}
+  \IEEEauthorblockA{Unidad de Posgrado - FIIS\\
+    Universidad Nacional de Ingeniería\\
+    vlazop@uni.pe}
   \and
- \textbf{Juan Quispe} \\
- Unidad de Posgrado - FIIS \\
-  Universidad Nacional de Ingeniería \\
-  \texttt{juan.quispe.h@uni.pe}
+  \IEEEauthorblockN{Rubén López}
+  \IEEEauthorblockA{Unidad de Posgrado - FIIS\\
+    Universidad Nacional de Ingeniería\\
+    ruben.lopez.m@uni.pe}
+  \and
+  \IEEEauthorblockN{Juan Quispe}
+  \IEEEauthorblockA{Unidad de Posgrado - FIIS\\
+    Universidad Nacional de Ingeniería\\
+    juan.quispe.h@uni.pe}
 }
 
 
@@ -82,6 +70,11 @@ mayor impacto provino del balance de clases, no de la arquitectura; el límite r
 en la precisión de las etiquetas de referencia.
 \end{abstract}
 
+\begin{IEEEkeywords}
+deforestación, detección de cambio, U-Net, ResNet, Sentinel-2, segmentación
+semántica, teledetección, Amazonía peruana, SERFOR, desbalance de clases.
+\end{IEEEkeywords}
+
 \section{Problema y enfoque}
 
 El objetivo es detectar deforestación en la Amazonía peruana sobre imágenes Sentinel-2,
@@ -94,21 +87,24 @@ Con una sola imagen el modelo no puede distinguir un clareo nuevo de uno antiguo
 
 \section{Pipeline}
 
-\begin{table}[ht]
+\begin{table*}[t]
 \centering
 \small
-\begin{tabularx}{\columnwidth}{@{}lX@{}}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
 \toprule
 \textbf{Notebook} & \textbf{Función} \\
 \midrule
-\texttt{01\_descarga\_y\_exploracion} & Carga y exploración de las etiquetas SERFOR. \\
-\texttt{02\_descarga\_sentinel2} & Descarga el par \emph{antes/después} (Sentinel-2 L2A vía STAC earth-search), bandas R, G, B, NIR a 10\,m. Filtra por nubes y solapamiento; descarga en paralelo. \\
-\texttt{03\_generar\_mascaras} & Rasteriza los polígonos sobre la grilla de la imagen. Filtra por la ventana temporal del par y suma anotaciones manuales del curador web. \\
-\texttt{04\_dataset\_parches} & Empareja imágenes y máscaras; separa train/val/test \emph{por escena} (sin fuga de datos). \\
-\texttt{05\_modelo\_unet} & Entrena la U-Net. \\
+\nb{01\_descarga\_y\_exploracion} & Carga y exploración de las etiquetas SERFOR. \\
+\nb{02\_descarga\_sentinel2} & Descarga el par \emph{antes/después} (Sentinel-2 L2A vía STAC earth-search), bandas R, G, B, NIR a 10\,m. Filtra por nubes y solapamiento; descarga en paralelo. \\
+\nb{03\_generar\_mascaras} & Rasteriza los polígonos sobre la grilla de la imagen. Filtra por la ventana temporal del par y suma anotaciones manuales del curador web. \\
+\nb{04\_dataset\_parches} & Empareja imágenes y máscaras; separa train/val/test \emph{por escena} (sin fuga de datos). \\
+\nb{05\_modelo\_unet} & Entrena la U-Net. \\
 \bottomrule
 \end{tabularx}
-\end{table}
+\caption{Notebooks del pipeline y su función. Cada nombre enlaza al notebook en el
+repositorio: \url{https://github.com/uni-maestria/deep-peru-forest}.}
+\label{tab:pipeline}
+\end{table*}
 
 
 
@@ -126,16 +122,16 @@ segmentos faltantes a mano}, ya sea dibujando el polígono o con una \textbf{var
 (selección por color sobre la imagen real). Las anotaciones exportadas se suman a los
 polígonos SERFOR en el notebook 03, mejorando la calidad de las máscaras de entrenamiento.
 
-\begin{figure}[h]
+\begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{figuras/missing.png}
+\includegraphics[width=0.82\textwidth]{figuras/missing.png}
 \caption{Curador web \emph{before/after} (\url{https://deforestacion-peru.cloud4geo.com/}).
 Izquierda y centro: imágenes Sentinel \emph{antes} y \emph{después} sincronizadas, con los
 polígonos SERFOR superpuestos. Donde la etiqueta no cubre todo el cambio, se añaden
 segmentos con las herramientas de dibujo o de varita mágica (barra inferior). El panel
 derecho gestiona la revisión y la exportación de la curación y las anotaciones.}
 \label{fig:curador}
-\end{figure}
+\end{figure*}
 
 \section{Datos}
 
@@ -166,9 +162,11 @@ derecho gestiona la revisión y la exportación de la curación y las anotacione
 
 La métrica principal es el \textbf{IoU en test} sobre la clase deforestación. Como el
 umbral 0,5 no es óptimo con clases desbalanceadas, se reporta también el mejor umbral del
-barrido (en general 0,7).
+barrido (en general 0,7).\footnote{Artefactos por experimento en
+\texttt{data/experiments/<nombre>/} (checkpoint, curvas, \texttt{metrics.json}); tabla
+acumulada en \texttt{data/experiments/results.csv}.}
 
-\begin{table}[h]
+\begin{table*}[t]
 \centering
 \small
 \setlength{\tabcolsep}{4pt}
@@ -189,31 +187,43 @@ r50 + ndvi11          & ResNet50 & 11 & 150 & 0,326 & 0,299 & 0,327 & 0,492 \\
 \caption{Resultados de los experimentos. \texttt{pw\_sqrt}: \texttt{pos\_weight} reducido a
 la raíz de \texttt{neg/pos}~($\approx 5{,}8$); \texttt{ndvi11}: 8 canales + NDVI antes,
 NDVI después y $\Delta$-NDVI; \texttt{lovász}: pérdida BCE + Lovász.}
-\end{table}
+\label{tab:resultados}
+\end{table*}
 
+\noindent
+\textbf{Notebooks de los experimentos.} Cada configuración de la
+Tabla~\ref{tab:resultados} tiene su propio notebook en el repositorio:
+\nbexp{05\_modelo\_unet\_resnet34\_8bandas\_pw}{ResNet34 + pw},
+\nbexp{05\_modelo\_unet\_resnet18\_8bandas\_pw}{ResNet18 + pw},
+\nbexp{05\_modelo\_unet\_resnet34\_8bandas}{ResNet34 8 bandas} y
+\nbexp{05\_modelo\_unet\_resnet34\_8bandas\_lovasz}{ResNet34 + Lovász}. La corrida
+de 150 épocas y los experimentos con NDVI (11 canales) reutilizan el notebook base
+\nbexp{05\_modelo\_unet}{05\_modelo\_unet} cambiando la configuración.
+
+\medskip
 \noindent
 \textbf{Mejor modelo: ResNet34 + 8 bandas + 100 epochs + \texttt{pos\_weight} balanceado
 $\rightarrow$ IoU 0,413, F1 0,584 (umbral 0,7).} Con el \texttt{pos\_weight} balanceado la
 precisión sube de 0,40 a 0,51 y el recall baja de 0,77 a 0,67 (modelo más equilibrado), y
 el IoU queda casi plano entre umbrales (0,403--0,413), señal de buena calibración.
 
-\begin{figure}[h]
+\begin{figure}[t]
 \centering
-\includegraphics[width=0.92\textwidth]{figuras/comparacion_iou.png}
+\includegraphics[width=\linewidth]{figuras/comparacion_iou.png}
 \caption{Comparación del IoU en test (mejor umbral) entre los siete experimentos. El
 balance del \texttt{pos\_weight} sobre ResNet34 con 8 bandas (verde) da el mejor resultado;
 agregar NDVI o usar ResNet50 lo empeora.}
 \label{fig:comparacion}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure*}[t]
 \centering
-\includegraphics[width=0.92\textwidth]{figuras/curvas_mejor.png}
+\includegraphics[width=0.72\textwidth]{figuras/curvas_mejor.png}
 \caption{Curvas de entrenamiento del mejor modelo (ResNet34 + 8 bandas + \texttt{pos\_weight}
 balanceado). Izquierda: pérdida de entrenamiento y validación. Derecha: IoU y F1 de
 validación, que se estabilizan alrededor de la época 55--90.}
 \label{fig:curvas}
-\end{figure}
+\end{figure*}
 
 \section{Por qué cada ajuste funcionó o no}
 
@@ -304,9 +314,9 @@ mejora de 70\% a 78\% solo con auditar (mejorar) las etiquetas de referencia, si
 cambiar el modelo (Figura~\ref{fig:literatura}), lo que confirma que la calidad de las
 etiquetas es el factor limitante.
 
-\begin{figure}[H]
+\begin{figure}[t]
 \centering
-\includegraphics[width=0.85\textwidth]{figuras/comparacion_literatura.png}
+\includegraphics[width=\linewidth]{figuras/comparacion_literatura.png}
 \caption{Comparación referencial del F1-score con Torres et al.~\cite{torres2021deforestation}
 sobre Sentinel-2. La comparación es \emph{cualitativa}: los conjuntos de datos y mapas de
 referencia son distintos (SERFOR-Perú vs PRODES-Brasil). El salto de 0,702 a 0,780 en ese
@@ -332,49 +342,31 @@ La vía con mayor impacto esperado es \textbf{mejorar las etiquetas}, no la arqu
         nubes o bordes mal delimitados).
 \end{itemize}
 
-
 % TODO: confirmar/ajustar quién hizo qué; los roles abajo son una propuesta
 % basada en los notebooks del pipeline, no un reparto verificado.
 \section*{Contribución de los autores}
-\begin{itemize}
-    \item \textbf{AAA BBBB:} descarga y preprocesamiento de las imágenes Sentinel-2 vía STAC (notebook 02), filtrado por nubes y solapamiento, y armado del par \emph{antes/después}.
-    \item \textbf{AAA BBBB:} generación y rasterización de las máscaras a partir de los polígonos SERFOR (notebook 03), construcción del dataset de parches y partición por escena sin fuga de datos (notebook 04).
-    \item \textbf{Rubén López:} diseño del pipeline y desarrollo del curador web \emph{before/after} para mejorar las etiquetas, e integración de las anotaciones manuales en las máscaras de entrenamiento.
-    \item \textbf{AAA BBBB:} implementación y entrenamiento de la U-Net, estudio de ablación y análisis de los resultados (notebook 05).
-    
-\end{itemize}
+
+\textbf{AAA BBBB:} descarga y preprocesamiento de las imágenes Sentinel-2
+vía STAC (notebook 02), filtrado por nubes y solapamiento, y armado del par
+\emph{antes/después}.
+\textbf{AAA BBBB:} generación y rasterización de las máscaras a partir de los
+polígonos SERFOR (notebook 03), construcción del dataset de parches y partición
+por escena sin fuga de datos (notebook 04).
+\textbf{Rubén López:} diseño del pipeline y desarrollo del curador web
+\emph{before/after} para mejorar las etiquetas, e integración de las anotaciones
+manuales en las máscaras de entrenamiento.
+\textbf{AAA BBBB:} implementación y entrenamiento de la U-Net, estudio de
+ablación y análisis de los resultados (notebook 05).
 Todos los autores participaron en la redacción, las pruebas y la corrección del
 manuscrito.
 
-
-
-
 % \FloatBarrier
 % \clearpage
-\bibliographystyle{plainnat}
+\bibliographystyle{IEEEtran}
 \nocite{*}                  % Muestra todas las referencias aunque no estén citadas en el texto
 \bibliography{referencias}
 
 
-\appendix
-% TODO: confirmar/ajustar quién hizo qué; los roles abajo son una propuesta
-% basada en los notebooks del pipeline, no un reparto verificado.
-\section*{Contribución de los autores}
-\begin{itemize}
-    \item \textbf{AAA BBBB:} descarga y preprocesamiento de las imágenes Sentinel-2 vía STAC (notebook 02), filtrado por nubes y solapamiento, y armado del par \emph{antes/después}.
-    \item \textbf{AAA BBBB:} generación y rasterización de las máscaras a partir de los polígonos SERFOR (notebook 03), construcción del dataset de parches y partición por escena sin fuga de datos (notebook 04).
-    \item \textbf{Rubén López:} diseño del pipeline y desarrollo del curador web \emph{before/after} para mejorar las etiquetas, e integración de las anotaciones manuales en las máscaras de entrenamiento.
-    \item \textbf{AAA BBBB:} implementación y entrenamiento de la U-Net, estudio de ablación y análisis de los resultados (notebook 05).
-    
-\end{itemize}
-Todos los autores participaron en la redacción, las pruebas y la corrección del
-manuscrito.
 
-
-\vspace{1em}
-\noindent\rule{\textwidth}{0.4pt}\\
-\footnotesize
-Artefactos por experimento en \texttt{data/experiments/<nombre>/} (checkpoint, curvas,
-\texttt{metrics.json}); tabla acumulada en \texttt{data/experiments/results.csv}.
 
 \end{document}
