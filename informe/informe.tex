@@ -13,7 +13,15 @@
 \usepackage{amsmath}
 \usepackage{siunitx}
 \usepackage{xcolor}
-\usepackage[hidelinks]{hyperref}
+
+% Cargar hyperref al final de los paquetes
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false,   % desactiva colores
+    pdfborder={0 0 0},  % elimina recuadros
+    pdfborderstyle={/S/U/W 0} % fuerza sin subrayado ni borde
+}
+
 
 \usepackage{tabularx}
 \usepackage{url}
@@ -103,11 +111,11 @@ El pipeline completo del sistema se compone de cinco etapas organizadas de maner
 \toprule
 \textbf{Fase / Notebook} & \textbf{Función en el Pipeline} \\
 \midrule
-\texttt{01\_descarga\_y\_exploracion} & Carga inicial y análisis exploratorio espacial y temporal de los datos vectoriales de SERFOR. \\
-\texttt{02\_descarga\_sentinel2} & Descarga del par antes/después de Sentinel-2 L2A vía STAC, filtrando por nubes y aplicando filtrado de overlap. \\
-\texttt{03\_generar\_mascaras} & Rasterización de los polígonos alineados a la grilla de la imagen y adición de las anotaciones curadas. \\
-\texttt{04\_dataset\_parches} & Emparejamiento de bandas, redimensionamiento, normalización y separación por escenas de satélite. \\
-\texttt{05\_modelo\_unet} & Definición de la arquitectura U-Net, entrenamiento, validación y evaluación en test. \\
+\href{https://github.com/uni-maestria/deep-peru-forest/blob/main/01_descarga_y_exploracion.ipynb}{\texttt{01\_descarga\_y\_exploracion}} & Carga inicial y análisis exploratorio espacial y temporal de los datos vectoriales de SERFOR. \\
+\href{https://github.com/uni-maestria/deep-peru-forest/blob/main/02_descarga_sentinel2.ipynb}{\texttt{02\_descarga\_sentinel2}} & Descarga del par antes/después de Sentinel-2 L2A vía STAC, filtrando por nubes y aplicando filtrado de overlap. \\
+\href{https://github.com/uni-maestria/deep-peru-forest/blob/main/03_generar_mascaras.ipynb}{\texttt{03\_generar\_mascaras}} & Rasterización de los polígonos alineados a la grilla de la imagen y adición de las anotaciones curadas. \\
+\href{https://github.com/uni-maestria/deep-peru-forest/blob/main/04_dataset_parches.ipynb}{\texttt{04\_dataset\_parches}} & Emparejamiento de bandas, redimensionamiento, normalización y separación por escenas de satélite. \\
+\href{https://github.com/uni-maestria/deep-peru-forest/blob/main/05_modelo_unet.ipynb}{\texttt{05\_modelo\_unet}} & Definición de la arquitectura U-Net, entrenamiento, validación y evaluación en test. \\
 \bottomrule
 \end{tabularx}
 \caption{Etapas del pipeline implementado para la detección de cambios.}
@@ -258,8 +266,8 @@ A partir del desarrollo del sistema y los resultados del estudio de ablación, s
     \item \textbf{La calidad de las etiquetas es el techo real del proyecto:} Tras optimizar los parámetros del entrenamiento, el limitante real no radica en el diseño de la red sino en la imprecisión de los polígonos SERFOR de referencia. La mejora de estas etiquetas mediante curación manual es fundamental para reportar métricas más realistas.
 \end{enumerate}
 
-\section*{Agradecimientos}
-Agradecemos a la Universidad Nacional de Ingeniería (UNI) y a la Unidad de Posgrado de la Facultad de Ingeniería Industrial y de Sistemas (FIIS) por el soporte académico brindado en el desarrollo de este trabajo. Asimismo, extendemos nuestro agradecimiento al Servicio Nacional Forestal y de Fauna Silvestre (SERFOR) de Perú por proveer de forma abierta las bases de datos geográficas oficiales que sirvieron como punto de partida para este proyecto.
+% \section*{Agradecimientos}
+% Agradecemos a la Universidad Nacional de Ingeniería (UNI) y a la Unidad de Posgrado de la Facultad de Ingeniería Industrial y de Sistemas (FIIS) por el soporte académico brindado en el desarrollo de este trabajo. Asimismo, extendemos nuestro agradecimiento al Servicio Nacional Forestal y de Fauna Silvestre (SERFOR) de Perú por proveer de forma abierta las bases de datos geográficas oficiales que sirvieron como punto de partida para este proyecto.
 
 \bibliographystyle{plainnat}
 \nocite{*}                  % Muestra todas las referencias aunque no estén citadas en el texto
@@ -275,10 +283,10 @@ Agradecemos a la Universidad Nacional de Ingeniería (UNI) y a la Unidad de Posg
 \end{itemize}
 Todos los autores participaron en la redacción, las pruebas y la corrección del manuscrito.
 
-\vspace{1em}
-\noindent\rule{\textwidth}{0.4pt}\\
-\footnotesize
-Artefactos por experimento en \texttt{data/experiments/<nombre>/} (checkpoint, curvas,
-\texttt{metrics.json}); tabla acumulada en \texttt{data/experiments/results.csv}.
+% \vspace{1em}
+% \noindent\rule{\textwidth}{0.4pt}\\
+% \footnotesize
+% Artefactos por experimento en \texttt{data/experiments/<nombre>/} (checkpoint, curvas,
+% \texttt{metrics.json}); tabla acumulada en \texttt{data/experiments/results.csv}.
 
 \end{document}
