@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2026.5.28)  11 JUN 2026 08:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2026.5.28)  12 JUN 2026 22:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -471,24 +471,24 @@ LaTeX Info: Redefining \% on input line 8.
 )
 \openout1 = `informe.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 69.
-LaTeX Font Info:    ... okay on input line 69.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 69.
-LaTeX Font Info:    ... okay on input line 69.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 69.
-LaTeX Font Info:    ... okay on input line 69.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 69.
-LaTeX Font Info:    ... okay on input line 69.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 69.
-LaTeX Font Info:    ... okay on input line 69.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 69.
-LaTeX Font Info:    ... okay on input line 69.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 69.
-LaTeX Font Info:    ... okay on input line 69.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 69.
-LaTeX Font Info:    ... okay on input line 69.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 69.
-LaTeX Font Info:    ... okay on input line 69.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -556,8 +556,8 @@ LaTeX Font Info:    ... okay on input line 69.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \. on input line 69.
-LaTeX Info: Redefining \% on input line 69.
+LaTeX Info: Redefining \. on input line 61.
+LaTeX Info: Redefining \% on input line 61.
 (C:\Users\vlazo\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count328
@@ -579,19 +579,19 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 )) (C:\Users\vlazo\AppData\Local\Programs\MiKTeX\tex/latex/translations/dicts\translations-basic-dictionary-spanish.trsl
 File: translations-basic-dictionary-spanish.trsl (spanish translation file `translations-basic-dictionary')
 )
-Package translations Info: loading dictionary `translations-basic-dictionary' for `spanish'. on input line 69.
-Package hyperref Info: Link coloring OFF on input line 69.
+Package translations Info: loading dictionary `translations-basic-dictionary' for `spanish'. on input line 61.
+Package hyperref Info: Link coloring OFF on input line 61.
  (informe.out) (informe.out)
 \@outlinefile=\write3
 \openout3 = `informe.out'.
 
-LaTeX Info: Redefining \microtypecontext on input line 69.
-Package microtype Info: Applying patch `item' on input line 69.
-Package microtype Info: Applying patch `toc' on input line 69.
-Package microtype Info: Applying patch `eqnum' on input line 69.
-Package microtype Info: Applying patch `footnote' on input line 69.
-Package microtype Info: Applying patch `verbatim' on input line 69.
-LaTeX Info: Redefining \microtypesetup on input line 69.
+LaTeX Info: Redefining \microtypecontext on input line 61.
+Package microtype Info: Applying patch `item' on input line 61.
+Package microtype Info: Applying patch `toc' on input line 61.
+Package microtype Info: Applying patch `eqnum' on input line 61.
+Package microtype Info: Applying patch `footnote' on input line 61.
+Package microtype Info: Applying patch `verbatim' on input line 61.
+LaTeX Info: Redefining \microtypesetup on input line 61.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -613,19 +613,19 @@ Package caption Info: End \AtBeginDocument code.
  (C:\Users\vlazo\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 71.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 63.
  (C:\Users\vlazo\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (C:\Users\vlazo\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 71.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 63.
  (C:\Users\vlazo\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (C:\Users\vlazo\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 71.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 63.
  (C:\Users\vlazo\AppData\Local\Programs\MiKTeX\tex/latex/base\t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
@@ -636,36 +636,40 @@ Package microtype Info: Loading generic protrusion settings for font family
  [1
 
 
-{C:/Users/vlazo/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/vlazo/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}]
-<figuras/missing.png, id=54, 1473.505pt x 873.2625pt>
+{C:/Users/vlazo/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/vlazo/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}] [2]
+<figuras/missing.png, id=71, 1473.505pt x 873.2625pt>
 File: figuras/missing.png Graphic file (type png)
 <use figuras/missing.png>
 Package pdftex.def Info: figuras/missing.png  used on input line 131.
 (pdftex.def)             Requested size: 397.48499pt x 235.5575pt.
- [2 <./figuras/missing.png>]
-LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 196.
-<figuras/comparacion_iou.png, id=68, 570.933pt x 295.27457pt>
+ [3 <./figuras/missing.png>]
+Overfull \hbox (41.21802pt too wide) in paragraph at lines 157--170
+ [][] 
+ []
+
+<figuras/comparacion_iou.png, id=89, 570.933pt x 295.27457pt>
 File: figuras/comparacion_iou.png Graphic file (type png)
 <use figuras/comparacion_iou.png>
-Package pdftex.def Info: figuras/comparacion_iou.png  used on input line 202.
+Package pdftex.def Info: figuras/comparacion_iou.png  used on input line 178.
 (pdftex.def)             Requested size: 365.68546pt x 189.13277pt.
-<figuras/curvas_mejor.png, id=69, 787.086pt x 279.882pt>
+<figuras/curvas_mejor.png, id=90, 787.086pt x 279.882pt>
 File: figuras/curvas_mejor.png Graphic file (type png)
 <use figuras/curvas_mejor.png>
-Package pdftex.def Info: figuras/curvas_mejor.png  used on input line 211.
+Package pdftex.def Info: figuras/curvas_mejor.png  used on input line 185.
 (pdftex.def)             Requested size: 365.68546pt x 130.037pt.
-
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[3 <./figuras/comparacion_iou.png>] [4 <./figuras/curvas_mejor.png>]
-<figuras/comparacion_literatura.png, id=96, 570.41678pt x 309.72858pt>
+[4 <./figuras/comparacion_iou.png>]
+LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10> not available
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 204.
+ [5 <./figuras/curvas_mejor.png>]
+<figuras/comparacion_literatura.png, id=114, 570.41678pt x 309.72858pt>
 File: figuras/comparacion_literatura.png Graphic file (type png)
 <use figuras/comparacion_literatura.png>
-Package pdftex.def Info: figuras/comparacion_literatura.png  used on input line 309.
-(pdftex.def)             Requested size: 337.86465pt x 183.45663pt.
- [5 <./figuras/comparacion_literatura.png>] (informe.bbl) [6] (informe.aux
+Package pdftex.def Info: figuras/comparacion_literatura.png  used on input line 229.
+(pdftex.def)             Requested size: 365.68546pt x 198.56116pt.
+ [6 <./figuras/comparacion_literatura.png>] (informe.bbl [7]) [8] (informe.aux
 LaTeX Info: Redefining \. on input line 8.
 LaTeX Info: Redefining \% on input line 8.
 )
@@ -674,20 +678,20 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `informe.out' has not changed.
-(rerunfilecheck)             Checksum: D21EAAB488F29CA73971F5F85E16ACB2;1381.
+(rerunfilecheck)             Checksum: FD250849FE035EF1A54519B3836C4E67;1168.
  ) 
 Here is how much of TeX's memory you used:
- 21750 strings out of 474486
- 413263 string characters out of 5743755
- 1941542 words of memory out of 5000000
- 43457 multiletter control sequences out of 15000+600000
- 607555 words of font info for 249 fonts, out of 8000000 for 9000
+ 21732 strings out of 474486
+ 413049 string characters out of 5743755
+ 1938542 words of memory out of 5000000
+ 43453 multiletter control sequences out of 15000+600000
+ 603667 words of font info for 239 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,10n,80p,1054b,1150s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,10n,80p,1079b,1102s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\vlazo\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt0900.pk> <C:\Users\vlazo\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk><C:/Users/vlazo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/vlazo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/vlazo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/vlazo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/vlazo/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/vlazo/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/vlazo/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/vlazo/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on informe.pdf (6 pages, 6070489 bytes).
+Output written on informe.pdf (8 pages, 6082872 bytes).
 PDF statistics:
- 257 PDF objects out of 1000 (max. 8388607)
- 43 named destinations out of 1000 (max. 500000)
- 48733 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 285 PDF objects out of 1000 (max. 8388607)
+ 45 named destinations out of 1000 (max. 500000)
+ 44637 words of extra memory for PDF output out of 51595 (max. 10000000)
 
